@@ -1,5 +1,6 @@
 import {Slider} from "./slider";
 import {AnimatedContour} from "./animatedContour";
+import {newtonLineSearch} from "../newton";
 
 export function NewtonContour(div) {
     this.stepSize = 1; // Initial learning rate
@@ -22,7 +23,7 @@ NewtonContour.prototype = Object.create(AnimatedContour.prototype);
 
 NewtonContour.prototype.drawControls = function() {
     var obj = this;
-    this.learnRate = Slider(this.div.select("#learningrate"), [0.0001, 1],
+    this.learnRate = Slider(this.div.select("#learningrate"), [0.00001, 10],
                             // TODO: why can't I just go 'this.setStepSize' here instead?
                             // feel like I fundamentally am missing something with JS
                             function(x) { return obj.setStepSize(x); },

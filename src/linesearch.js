@@ -22,7 +22,7 @@ export function wolfeLineSearch(f, pk, current, next, a, c1, c2) {
         for (var iteration = 0; iteration < 16; ++iteration) {
             a = (a_lo + a_high)/2;
             weightedSum(next.x, 1.0, current.x, a, pk);
-            phi = next.fx = f(next.x, next.fxprime);
+            phi = next.fx = f(next.x, next.fxprime, next.hessianx);
             phiPrime = dot(next.fxprime, pk);
 
             if ((phi > (phi0 + c1 * a * phiPrime0)) ||
@@ -48,7 +48,7 @@ export function wolfeLineSearch(f, pk, current, next, a, c1, c2) {
 
     for (var iteration = 0; iteration < 10; ++iteration) {
         weightedSum(next.x, 1.0, current.x, a, pk);
-        phi = next.fx = f(next.x, next.fxprime);
+        phi = next.fx = f(next.x, next.fxprime, next.hessianx);
         phiPrime = dot(next.fxprime, pk);
         if ((phi > (phi0 + c1 * a * phiPrime0)) ||
             (iteration && (phi >= phi_old))) {

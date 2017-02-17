@@ -28,8 +28,8 @@ export function newton(f, initial, params) {
 
 export function newtonLineSearch(f, initial, params) {
     params = params || {};
-    var current = {x: initial.slice(), fx: 0, fxprime: initial.slice()},
-        next = {x: initial.slice(), fx: 0, fxprime: initial.slice()},
+    var current = {x: initial.slice(), fx: 0, fxprime: initial.slice(), hessianx: initial.slice()},
+        next = {x: initial.slice(), fx: 0, fxprime: initial.slice(), hessianx: initial.slice()},
         maxIterations = params.maxIterations || initial.length * 100,
         learnRate = params.learnRate || 1,
         pk = initial.slice(),
@@ -41,27 +41,29 @@ export function newtonLineSearch(f, initial, params) {
     if (params.history) {
         // wrap the function call to track linesearch samples
         var inner = f;
-        f = function(x, fxprime) {
+        f = function(x, fxprime, hessianx) {
             functionCalls.push(x.slice());
-            return inner(x, fxprime);
+            return inner(x, fxprime, hessianx);
         };
     }
 
-    current.fx = f(current.x, current.fxprime);
+    current.fx = f(current.x, current.fxprime, current.hessianx);
     for (var i = 0; i < maxIterations; ++i) {
-        scale(pk, current.fxprime, -1);
+        var d = numeric.dot(numeric.inv(current.hessianx), current.fxprime);
+        scale(pk, d, -1);
         learnRate = wolfeLineSearch(f, pk, current, next, learnRate, c1, c2);
-
+        //console.log("learning rate : ", learnRate)
+        //console.log("gradient : ", current.fxprime)
         if (params.history) {
             params.history.push({x: current.x.slice(),
                                  fx: current.fx,
                                  fxprime: current.fxprime.slice(),
+                                 hessianx: current.hessianx.slice(),
                                  functionCalls: functionCalls,
                                  learnRate: learnRate,
                                  alpha: learnRate});
             functionCalls = [];
         }
-
 
         temp = current;
         current = next;
