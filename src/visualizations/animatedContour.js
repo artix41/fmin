@@ -1,9 +1,9 @@
 import {createDropShadowFilter} from "./dropshadow";
-import {flower, himmelblau, banana, matyas, booth} from "./functions";
+import {flower, himmelblau, banana, matyas, booth, trid} from "./functions";
 import {ContourPlot} from "../../node_modules/contour_plot/index.js";
 
 export function AnimatedContour(div) {
-    this.current = this.current || himmelblau;
+    this.current = this.current || flower;
     this.initial = this.current.initial.slice() || [1, 1];
     this.plot = null;
     this.div = div;
@@ -13,42 +13,25 @@ export function AnimatedContour(div) {
     this.cycle = 0;
 
     var contour = this;
-    div.select(".function_flower").on("click", function() {
-        contour.current = flower;
-        contour.redraw();
-        contour.initialize(contour.current.initial.slice());
-        div.select(".function_label").html(d3.select(this).html());
-    });
+    var list_functions = [{class:".function_flower", name:flower},
+                          {class:".function_himmelblau", name:himmelblau},
+                          {class:".function_banana", name:banana},
+                          {class:".function_matyas", name:matyas},
+                          {class:".function_booth", name:booth},
+                          {class:".function_trid", name:trid}
+                         ];
 
-    div.select(".function_himmelblau").on("click", function() {
-        contour.current = himmelblau;
-        contour.redraw();
-        contour.initialize(contour.current.initial.slice());
-        div.select(".function_label").html(d3.select(this).html());
-    });
-
-    div.select(".function_banana").on("click", function() {
-        contour.current = banana;
-        contour.redraw();
-        contour.initialize(contour.current.initial.slice());
-        div.select(".function_label").html(d3.select(this).html());
-        div.select(".function_label").html(d3.select(this).html());
-    });
-
-    div.select(".function_matyas").on("click", function() {
-        contour.current = matyas;
-        contour.redraw();
-        contour.initialize(contour.current.initial.slice());
-        div.select(".function_label").html(d3.select(this).html());
-    });
-
-    div.select(".function_booth").on("click", function() {
-        contour.current = booth;
-        contour.redraw();
-        contour.initialize(contour.current.initial.slice());
-        div.select(".function_label").html(d3.select(this).html());
-    });
-
+    function clickOnFunction(func) {
+        div.select(func.class).on("click", function() {
+            contour.current = func.name;
+            contour.redraw();
+            contour.initialize(contour.current.initial.slice());
+            div.select(".function_label").html(d3.select(this).html());
+        });
+    }
+    for (var i in list_functions) {
+        clickOnFunction(list_functions[i])
+    }
 
     this.redraw();
     this.initialize(this.initial);
