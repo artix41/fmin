@@ -70,4 +70,3 @@ export function gradientDescentLineSearch(f, initial, params) {
 
     return current;
 }
-

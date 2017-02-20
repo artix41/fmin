@@ -12,30 +12,29 @@ export function AnimatedContour(div) {
     this.stateIndex = 0;
     this.cycle = 0;
 
-    var contour = this;
-    var list_functions = [{class:".function_flower", name:flower},
-                          {class:".function_himmelblau", name:himmelblau},
-                          {class:".function_banana", name:banana},
-                          {class:".function_matyas", name:matyas},
-                          {class:".function_booth", name:booth},
-                          {class:".function_trid", name:trid}
-                         ];
+    this.listFunctions = this.listFunctions || [flower];
 
-    function clickOnFunction(func) {
-        div.select(func.class).on("click", function() {
-            contour.current = func.name;
+    var contour = this;
+
+    this.listFunctions.forEach(function(func, iFunc) {
+        div.select("function" + iFunc).on("click", function() {
+            contour.current = func;
             contour.redraw();
             contour.initialize(contour.current.initial.slice());
             div.select(".function_label").html(d3.select(this).html());
         });
-    }
-    for (var i in list_functions) {
-        clickOnFunction(list_functions[i])
-    }
+    })
 
     this.redraw();
     this.initialize(this.initial);
     this.drawControls();
+}
+
+AnimatedContour.changeContour = function(func) {
+    this.current = func;
+    this.redraw();
+    this.initialize(contour.current.initial.slice());
+    this.select(".function_label").html(d3.select(this).html());
 }
 
 AnimatedContour.prototype.redraw = function() {

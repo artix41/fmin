@@ -1,4 +1,6 @@
 export var trid = {
+    'latex': '(x - 1)^2 + (y - 1)^2 - x y',
+
     'initial': [-1, -1],
     'f' : function(X) {
         var x = X[0], y = X[1];
@@ -53,6 +55,8 @@ export var dixonPrice = {
 };
 
 export var banana = {
+    'latex': '(1-x)^2 + 100 (y - x^2) ^2',
+
     'initial': [-1, -1],
     'f' : function(X) {
         var x = X[0], y = X[1];
@@ -80,6 +84,8 @@ export var banana = {
 };
 
 export var matyas = {
+    'latex': '.26 (x^2 + y^2)  + .48 x y',
+
     'initial': [-9.08, -7.83],
 
     'f' : function(X) {
@@ -114,6 +120,8 @@ export var matyas = {
 };
 
 export var booth = {
+    'latex': "(x + 2 y - 7)^2 + (2 x + y - 5)^2",
+
     'f' : function(X) {
         var x = X[0], y = X[1];
         return Math.pow(x + 2 * y - 7, 2) + Math.pow(2 * x + y - 5, 2);
@@ -145,6 +153,8 @@ export var booth = {
 };
 
 export var himmelblau = {
+    'latex': '(x^2 + y - 11)^2 + (x+y^2 -7)^2',
+
     'initial': [-0.15, 0.67],
     'f': function(X) {
         var x = X[0], y = X[1];
@@ -176,7 +186,9 @@ export var himmelblau = {
 };
 
 export var flower = {
-    'initial': [-3.5, 2.75],
+    'latex': 'x^2 + y^2 + x \sin y + y \sin x',
+
+    'initial': [-1, 3],
 
     'f': function(X) {
         var x = X[0], y = X[1];
@@ -204,6 +216,10 @@ export var flower = {
 };
 
 export var mccormick = {
+    'latex': '\sin(x + y) + (x - y)^2 - 1.5 x + 2.5 y + 3',
+
+    'initial': [-1, 3],
+
     'f' : function(X) {
         var x = X[0], y = X[1];
             return Math.sin(x + y) + (x - y) * (x - y) - 1.5 * x + 2.5 * y + 3;
@@ -220,8 +236,8 @@ export var mccormick = {
     'hessian': function(X, hessianx) {
         hessianx = hessianx || [[0,0],[0,0]];
         var x = X[0], y = X[1];
-        hessianx[0] = [2 - sin(x+y), -2 - sin(x+y)];
-        hessianx[1] = [-2 - sin(x+y), 2 - sin(x+y)];
+        hessianx[0] = [2 - Math.sin(x+y), -2 - Math.sin(x+y)];
+        hessianx[1] = [-2 - Math.sin(x+y), 2 - Math.sin(x+y)];
         return hessianx;
     },
 

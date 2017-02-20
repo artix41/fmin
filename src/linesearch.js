@@ -1,4 +1,4 @@
-import {dot, weightedSum} from "./blas1";
+ import {dot, weightedSum} from "./blas1";
 
 
 /// searches along line 'pk' for a point that satifies the wolfe conditions
