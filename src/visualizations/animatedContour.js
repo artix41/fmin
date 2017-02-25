@@ -8,7 +8,7 @@ export function AnimatedContour(div) {
     this.plot = null;
     this.div = div;
     this.colour = this.colour || d3.schemeCategory10[0];
-    this.states =[];
+    this.states = [];
     this.stateIndex = 0;
     this.cycle = 0;
 
@@ -49,7 +49,7 @@ AnimatedContour.prototype.redraw = function() {
         .colourScale(colourScale);
 
     // remove old graph if there
-    this.div.select("svg").data([]).exit().remove();
+    this.div.select("#vis").select("svg").data([]).exit().remove();
     this.plot = plot(this.div.select("#vis"));
     createDropShadowFilter(this.plot.svg);
     var svg = this.plot.svg, xScale = this.plot.xScale, yScale = this.plot.yScale, contour = this;

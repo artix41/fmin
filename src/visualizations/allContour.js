@@ -41,6 +41,14 @@ export function AllContour(div) {
     this.divListFunctions = d3.select("#list-functions")
     .selectAll("li").data(this.listFunctions).enter();
 
+    this.marginCurve = 25;
+
+    this.svgCurve = d3.select("#curve").append("svg")
+    .attr("width", "100%").attr("height", 400);
+
+    this.widthCurve = document.getElementById("curve").offsetWidth - this.marginCurve;
+    this.heightCurve = document.getElementById("curve").offsetHeight - this.marginCurve;
+
     AnimatedContour.call(this, div);
 
 }
@@ -76,6 +84,7 @@ AllContour.prototype.drawControls = function() {
     this.div.select(".function_label").html("\\(" + this.current.latex.replace('\\', '\\\\') + "\\)");
 
     // Draw list of algorithms and learning rates
+
     var rowAlgorithm = this.divListAlgorithms.append("div")
     .attr("class", "row")
     .attr("style", function(d, i) {return "background-color:" + RGBtoRGBA(d3.schemeCategory10[i], 0.6)})
@@ -145,8 +154,8 @@ AllContour.prototype.setStepSize = function(x, iAlgo) {
 };
 
 AllContour.prototype.calculateStates = function(initial) {
+    this.states = []
     this.stateIndex = new Array(this.listAlgorithms.length).fill(0);
-    this.states = [];
 
     var obj = this;
     var f = function(x, fxprime, hessianx) {
@@ -173,6 +182,8 @@ AllContour.prototype.initialize = function(initial) {
     this.stop();
     this.initial = initial.slice();
     this.calculateStates(initial);
+
+    // =========== Init contour plot ============
 
     var svg = this.plot.svg, xScale = this.plot.xScale, yScale = this.plot.yScale;
     svg.selectAll(".current").data([]).exit().remove();
@@ -201,11 +212,76 @@ AllContour.prototype.initialize = function(initial) {
         .attr("cy", function(d) { return yScale(d.x[1]); });
     })
 
+    // Init curve
+
+    this.svgCurve.selectAll("g").data([]).exit().remove(); // erase previous curve
+
+    var F = [];
+    this.states.forEach(function(stateAlgo, iAlgo) {
+        F.push(stateAlgo.map(function(elem) {
+            if (!elem.fx || elem.fx == Infinity || elem.fx == -Infinity) {
+                return 0
+            }
+            else {
+                return elem.fx
+            }
+        }));
+    });
+
+    var initF = F[0][0];
+    var minF = Infinity
+    F.forEach(function(f,i) {
+        minF = Math.min(minF, Math.min(...f));
+    })
+
+    var xAxisScale = d3.scaleLinear()
+    .domain([0,100])
+    .range([this.marginCurve,this.widthCurve]);
+
+
+    var yAxisScale = d3.scaleLinear()
+    .domain([minF,initF])
+    .range([this.heightCurve, this.marginCurve]);
+
+    var xAxis = d3.axisBottom(xAxisScale).ticks(10);
+    var yAxis = d3.axisLeft(yAxisScale).ticks(10);
+
+    this.svgCurve.append("g")
+    .attr("transform", "translate(0," + (this.heightCurve)  + ")")
+    .call(d3.axisBottom(xAxisScale));
+
+    this.svgCurve.append("g")
+    .attr("transform", "translate(" + this.marginCurve + ",0)")
+    .call(d3.axisLeft(yAxisScale));
+
+    var valueLine = d3.line()
+    .curve(d3.curveLinear)
+	.x(function(d, i) { return xAxisScale(i); })
+	.y(function(d, i) { return yAxisScale(d); })
+
+    //this.curve = this.svgCurve.data(F[0]).enter();
+
+    var obj = this;
+
+    this.listAlgorithms.forEach(function(d,i) {
+        obj.svgCurve.append("g").append("path").datum(F[i])
+        .attr("d", valueLine)
+        .attr("fill", "none")
+        .attr("stroke-width", 2)
+        .attr("stroke", d3.schemeCategory10[i]);
+    })
+
+
+
     this.increment(this.cycle, this.duration);
 };
 
 AllContour.prototype.displayState = function(){
     var obj = this;
+
+    // Display state on contour plot
+
+    // state is an array with the state for each algo
     var state = this.states.map(function(row, i) { return row[obj.stateIndex[i]] });
     var group = obj.plot.svg.selectAll(".current")
                 .data(state)
@@ -217,7 +293,7 @@ AllContour.prototype.displayState = function(){
         .attr("cy", obj.plot.yScale(state[i].x[1]));
     });
 
-    // d is an array of the state at a given time for all algorithms
+    // d is an array with the previous state for all algorithms
     var d = this.states.map(function(row, i) {
         if(obj.stateIndex[i] > 0) {
             return row[obj.stateIndex[i]-1]
@@ -252,6 +328,15 @@ AllContour.prototype.displayState = function(){
         .attr("x2", obj.plot.xScale(state[i].x[0]))
         .attr("y2", obj.plot.yScale(state[i].x[1]));
     });
+
+    // Display state on graph
+
+
+
+
+
+
+
 };
 
 AllContour.prototype.increment = function(currentCycle, duration) {

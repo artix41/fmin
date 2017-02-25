@@ -44,56 +44,47 @@
 
 <body>
 <div class="container">
-<div class = "row"><div class="col-md-6 col-md-offset-3">
 
-<div id ="comparison" >
-<div style="text-align:center"><div style="display:inline-block;">
-<h4>
-    <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          <span class="function_sig">
-                \(f(x, y) \)
-            </span>
-            <span class="caret"></span>
-        </button>
-        <ul id="list-functions" class="dropdown-menu" role="menu">
-        </ul>
+    <div id="comparison" >
+        <div style="text-align:center"><div style="display:inline-block;">
+            <div class="row"><div class="col-md-12">
+                <h4>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                          <span class="function_sig">
+                                \(f(x, y) \)
+                            </span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="list-functions" class="dropdown-menu" role="menu">
+                        </ul>
 
-        <!--<ul class="dropdown-menu" role="menu">
-            <li><a class="function_flower">
-                \(x^2 + y^2 + x \sin y + y \sin x \)
-            </a></li>
-            <li><a class="function_himmelblau">
-                \((x^2 + y - 11)^2 + (x+y^2 -7)^2\)
-            </a></li>
-            <li><a class="function_banana">
-                \((1-x)^2 + 100 (y - x^2) ^2\)
-            </a></li>
-            <li><a class="function_matyas">
-                \(.26 (x^2 + y^2)  + .48 x y \)
-            </a></li>
-            <li><a class="function_trid">
-                \( (x - 1)^2 + (y - 1)^2 - x y \)
-            </a></li>
-        </ul>-->
-    </div>
-    <span>\(=\)</span>
-    <span class="function_label">
-        
-    </span>
-</h4>
-</div></div>
+                    </div>
+                    <span>\(=\)</span>
+                    <span class="function_label"></span>
+                </h4>
+            </div></div>
+        </div></div>
 
-<div id="vis"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="vis"></div>
+            </div>
+            <div class="col-md-6">
+                <div id="curve"></div>
+            </div>
 
-<div id="list-algorithms"></div>
+        </div>
 
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div id="list-algorithms"></div>
+            </div>
+        </div>
+
+
+    </div></div>
 </div>
-</div>
-</div>
-
-
-</body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.js"></script>
@@ -120,4 +111,7 @@ var comparison_plot = new fmin.AllContour(d3.select("#comparison"));
   });
 </script>
 <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+
+</body>
+
 </html>
