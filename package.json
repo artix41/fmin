@@ -27,11 +27,12 @@
     "postpublish": "zip -j build/fmin.zip -- LICENSE README.md build/fmin.js build/fmin.min.js"
   },
   "devDependencies": {
+    "jshint": "^2.8.0",
     "json2module": "0.0",
     "rollup": "0.25",
+    "rollup-watch": "^3.2.2",
     "tape": "4",
-    "uglify-js": "2",
-    "jshint": "^2.8.0"
+    "uglify-js": "2"
   },
   "bugs": {
     "url": "https://github.com/benfred/fmin/issues"
