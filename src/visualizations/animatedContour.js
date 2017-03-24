@@ -23,7 +23,7 @@ export function AnimatedContour(div) {
             contour.initialize(contour.current.initial.slice());
             div.select(".function_label").html(d3.select(this).html());
         });
-    })
+    });
 
     this.redraw();
     this.initialize(this.initial);
@@ -35,7 +35,7 @@ AnimatedContour.changeContour = function(func) {
     this.redraw();
     this.initialize(contour.current.initial.slice());
     this.select(".function_label").html(d3.select(this).html());
-}
+};
 
 AnimatedContour.prototype.redraw = function() {
     var colourDomain = this.current.colourDomain || [1, 13],
@@ -46,7 +46,8 @@ AnimatedContour.prototype.redraw = function() {
         .xDomain(this.current.xDomain)
         .yDomain(this.current.yDomain)
         .minima(this.current.minima)
-        .colourScale(colourScale);
+        .colourScale(colourScale)
+        .contourCount(30);
 
     // remove old graph if there
     this.div.select("#vis").select("svg").data([]).exit().remove();

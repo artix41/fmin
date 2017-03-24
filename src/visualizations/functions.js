@@ -1,3 +1,32 @@
+export var plane = {
+    'latex': 'x + 1',
+
+    'initial': [-1, -1],
+    'f' : function(X) {
+        var x = X[0], y = X[1];
+        return x + 1;
+    },
+
+    'fprime' : function(X, fxprime) {
+        fxprime = fxprime || [0, 0];
+        var x = X[0], y = X[1];
+        fxprime[0] = 1;
+        fxprime[1] = 0;
+        return fxprime;
+    },
+
+    'hessian': function(X, hessianx) {
+        hessianx = hessianx || [[0,0],[0,0]];
+        var x = X[0], y = X[1];
+        hessianx[0] = [0,0];
+        hessianx[1] = [0,0];
+        return hessianx;
+    },
+
+    'xDomain': [-4, 4],
+    'yDomain': [-4, 4]
+};
+
 export var trid = {
     'latex': '(x - 1)^2 + (y - 1)^2 - x y',
 

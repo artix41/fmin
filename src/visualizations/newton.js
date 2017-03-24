@@ -1,12 +1,12 @@
 import {Slider} from "./slider";
 import {AnimatedContour} from "./animatedContour";
-import {newtonLineSearch} from "../newton";
+import {flower, himmelblau, banana, matyas, booth, trid} from "./functions";
 
 export function NewtonContour(div) {
     this.stepSize = 1; // Initial learning rate
     this.colour = this.colour || d3.schemeCategory20[8]; // colour of the plot
-    this.colourStroke = this.colourStroke || "red"
-    this.colourBall = this.colourBall || "red"
+    this.colourStroke = this.colourStroke || "red";
+    this.colourBall = this.colourBall || "red";
     this.duration = this.duration || 500;
     this.enableLineSearch = false; // Initial state
 
@@ -45,7 +45,7 @@ NewtonContour.prototype.calculateStates = function(initial) {
     var obj = this;
     var f = function(x, fxprime, hessianx) {
         obj.current.fprime(x, fxprime);
-        obj.current.hessian(x, hessianx)
+        obj.current.hessian(x, hessianx);
         return obj.current.f(x);
     };
 

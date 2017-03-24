@@ -25,7 +25,7 @@ var optimizers = [fmin.nelderMead,
                       "Gradient Descent w/ Line Search",
                       "Conjugate Gradient"];
 
-tape("himmelblau", function(test) {
+/*tape("himmelblau", function(test) {
     // due to a bug, this used to not converge to the minimum
     var x = 4.9515014216303825, y = 0.07301421370357275;
 
@@ -45,7 +45,7 @@ tape("himmelblau", function(test) {
     }
 
     test.end();
-});
+});*/
 
 tape("banana", function(test) {
     var x = 1.6084564160555601, y = -1.5980748860165477;

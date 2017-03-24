@@ -51,9 +51,9 @@ export function newtonLineSearch(f, initial, params) {
     for (var i = 0; i < maxIterations; ++i) {
         var d = numeric.dot(numeric.inv(current.hessianx), current.fxprime);
         scale(pk, d, -1);
+
         learnRate = wolfeLineSearch(f, pk, current, next, learnRate, c1, c2);
-        //console.log("learning rate : ", learnRate)
-        //console.log("gradient : ", current.fxprime)
+
         if (params.history) {
             params.history.push({x: current.x.slice(),
                                  fx: current.fx,
