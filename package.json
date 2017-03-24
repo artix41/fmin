@@ -20,7 +20,7 @@
     "esnext": true
   },
   "scripts": {
-    "watch": "rollup --watch -f umd -n fmin -o build/fmin.js -- index.js && rollup --watch -f umd -n fmin_vis -o build/fmin_vis.js -- index_vis.js",
+    "watch": "rollup --watch -f umd -n fmin -o build/fmin.js -- index.js &! rollup --watch -f umd -n fmin_vis -o build/fmin_vis.js -- index_vis.js",
     "pretest": "rm -rf build && mkdir build && json2module package.json > build/package.js && rollup -f umd -n fmin -o build/fmin.js -- index.js && rollup -f umd -n fmin_vis -o build/fmin_vis.js -- index_vis.js",
     "test": "jshint src/*.js src/visualizations/*.js && tape 'test/**/*-test.js'",
     "prepublish": "npm run test && uglifyjs build/fmin.js -c -m -o build/fmin.min.js",
